@@ -1,0 +1,39 @@
+"""
+Created on Fri Apr 12 18:10:57 2024
+
+Hayba & Ingebritsen, 1997
+k = f(T)
+
+@author: Rotman A. Criollo Manajarrez
+"""
+
+import math
+import matplotlib.pyplot as plt
+import numpy as np
+
+k_end = []
+temperatures=np.linspace(500, 1000, num=200) #Kelvin
+
+T_bdt = 633.15 #360  According with Hayba&Ingebritsen, 97 fig of paper
+T_end = 823.15 #550C According with Hayba&Ingebritsen, 97 fig of paper and Scott et al., 2024
+k0 = 1e-15 #0.317e-13 #1e-14 # Maximum mobility
+k_duc = 1e-16 # Minimum mobility
+
+for i in temperatures:
+    a = (math.log10(k0) * (i - T_bdt) + math.log10(k_duc) * (T_end  - i)) / (T_end - T_bdt)
+    b = math.pow(10,a)
+    k_end.append(b)
+
+fig, ax = plt.subplots()
+ax.plot(temperatures,k_end, label='Hayba & Ingebritsen')
+
+# plt.ylim(0.1e-22,0.5e-13)
+
+plt.grid(True)
+
+ax.set_yscale('log')
+
+plt.xlabel('Temperature (K)')
+plt.ylabel(r'permeability (m$^2$)')
+ax.legend(loc='best')
+plt.show()
